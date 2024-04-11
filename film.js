@@ -129,7 +129,7 @@ poznamka.addEventListener('submit', (e) => {
 const filmId = window.location.hash.slice(1);
 const filmData = filmy.find((film) => film.id === filmId);
 const mainElement = document.querySelector('.container-lg');
-// mainElement.innerHTML = ""
+mainElement.innerHTML = ""
 
 mainElement.innerHTML += `
 			<div class="card mb-3" id="detail-filmu">
@@ -230,3 +230,18 @@ mainElement.innerHTML += `
 				</div>
 			</div>
 `;
+
+/*Do prvku s id premiera vepište HTML Premiéra <strong>29. 11. 2022</strong>, kde datum nahraďte datumem premiéry filmu naformátovaným pomocí dayjs a metody .format().
+
+Datum v dayjs vytvoříte například voláním dayjs('2022-12-24'). Vánoce nahraďte datumem premiéry filmu.
+
+Hezké datum z dayjs vytvoříte voláním dayjs('2022-12-24').format('D. M. YYYY').*/
+
+const premiera = document.getElementById("premiera");
+
+const dayJsInput = dayjs(filmData.premiera)
+/*const today = */
+
+premiera.innerHTML = `
+Premiéra <strong>${dayJsInput}(</strong>
+`
