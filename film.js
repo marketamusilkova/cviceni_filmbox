@@ -104,3 +104,38 @@ const filmy = [
 		premiera: '2022-12-24',
 	},
 ]
+
+/*Umožněte uživateli vyplněním formuláře přidat k filmu vlastní poznámku.
+
+V souboru film.js pomocí document.querySelector najděte prvek s id note-form.
+
+Při pokusu o odeslání tohoto formuláře zamezte výchozí chování prohlížeče.
+
+Ověřte, že uživatel do textového pole, prvku s id message-input něco napsal. Pokud ne, přidejte prvku třídu is-invalid, která ho zvýrazní červeně.
+
+Pokud uživatel něco napsal, ověřte, že souhlasil s podmínkami, že zaškrtl políčko s id terms-checkbox. Pokud nezaškrtl, přidejte políčku třídu is-invalid
+
+Pokud uživatel splnil obě podmínky z kroků výše, nahraďte HTML obsah formuláře za odstavec <p class="card-text">…</p> s textem z textového pole.*/
+
+const poznamka = document.getElementById("note-form")
+
+poznamka.addEventListener("submit", (e) => {
+	e.preventDefault()
+	const textAreaElm = document.getElementById("message-input")
+	const textAreaElmValue = textAreaElm.value
+  if (textAreaElmValue === "") {
+		textAreaElm.classList.add("is-invalid")
+	}
+	const checkBoxElm = document.getElementById("terms-checkbox")
+
+	const checkBoxElmChecked = checkBoxElm.checked
+	if (!checkBoxElmChecked) {
+		checkBoxElm.classList.add("is-invalid")
+	}
+
+poznamka.innerHTML = `
+<p class="card-text">${textAreaElmValue}</p>
+`	
+}
+)
+
