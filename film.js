@@ -129,7 +129,7 @@ poznamka.addEventListener('submit', (e) => {
 const filmId = window.location.hash.slice(1);
 const filmData = filmy.find((film) => film.id === filmId);
 const mainElement = document.querySelector('.container-lg');
-mainElement.innerHTML = ""
+mainElement.innerHTML = '';
 
 mainElement.innerHTML += `
 			<div class="card mb-3" id="detail-filmu">
@@ -237,11 +237,35 @@ Datum v dayjs vytvoříte například voláním dayjs('2022-12-24'). Vánoce nah
 
 Hezké datum z dayjs vytvoříte voláním dayjs('2022-12-24').format('D. M. YYYY').*/
 
-const premiera = document.getElementById("premiera");
+const premiera = document.getElementById('premiera');
 
-const dayJsInput = dayjs(filmData.premiera)
+const dayJsInput = dayjs(filmData.premiera);
 /*const today = */
 
 premiera.innerHTML = `
 Premiéra <strong>${dayJsInput}(</strong>
-`
+`;
+
+
+const vyberHvezdicek = (pocetHvezdicek) => {
+  const hvezdicky = document.querySelectorAll('.stars button');
+  hvezdicky.forEach((hvezdicka, index) => {
+    if (index < pocetHvezdicek) {
+      hvezdicka.classList.remove('far');
+      hvezdicka.classList.add('fas');
+    } else {
+      hvezdicka.classList.remove('fas');
+      hvezdicka.classList.add('far');
+    }
+  });
+};
+
+const buttons = document.querySelectorAll(".stars button");
+buttons.forEach((hvezda) => {
+  hvezda.addEventListener('click', (e) => {
+    const cislo = parseInt(e.target.textContent.trim());
+    vyberHvezdicek(cislo);
+  });
+});
+
+
