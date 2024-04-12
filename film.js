@@ -235,31 +235,42 @@ const premiera = document.getElementById('premiera');
 
 const dayJsInput = dayjs(filmData.premiera);
 
-const today = dayjs()
+const today = dayjs();
 
-const pocetDniOdPremiery = dayJsInput.diff(today, "days")
+const pocetDniOdPremiery = dayJsInput.diff(today, 'days');
 
-let denOrDny
+let denOrDny;
 
 if (pocetDniOdPremiery === 0) {
-    premiera.innerHTML = `
+  premiera.innerHTML = `
     Premiéra <strong>${dayJsInput.format('D. M. YYYY')}</strong>, což je dnes.`;
 } else if (today.isAfter(dayJsInput)) {
-    if (pocetDniOdPremiery === -1) {
-            denOrDny = "dnem"
-    } else {denOrDny = "dny"}
-    premiera.innerHTML = `
-    Premiéra <strong>${dayJsInput.format('D. M. YYYY')}</strong>, což bylo před ${-dayJsInput.diff(today, "days")} ${denOrDny}.`
-    } else {
-      if (pocetDniOdPremiery === 1) {
-            denOrDny = "dnem"
-    } else if (pocetDniOdPremiery ===2 || pocetDniOdPremiery === 3 || pocetDniOdPremiery === 4) 
-    {denOrDny = "dny"
-    } else {denOrDny = "dní"} 
-    premiera.innerHTML = `
-    Premiéra <strong>${dayJsInput.format('D. M. YYYY')}</strong>, což bude za ${dayJsInput.diff(today, "days")} ${denOrDny}.`
-    }
-  
+  if (pocetDniOdPremiery === -1) {
+    denOrDny = 'dnem';
+  } else {
+    denOrDny = 'dny';
+  }
+  premiera.innerHTML = `
+    Premiéra <strong>${dayJsInput.format(
+      'D. M. YYYY',
+    )}</strong>, což bylo před ${-dayJsInput.diff(today, 'days')} ${denOrDny}.`;
+} else {
+  if (pocetDniOdPremiery === 1) {
+    denOrDny = 'dnem';
+  } else if (
+    pocetDniOdPremiery === 2 ||
+    pocetDniOdPremiery === 3 ||
+    pocetDniOdPremiery === 4
+  ) {
+    denOrDny = 'dny';
+  } else {
+    denOrDny = 'dní';
+  }
+  premiera.innerHTML = `
+    Premiéra <strong>${dayJsInput.format(
+      'D. M. YYYY',
+    )}</strong>, což bude za ${dayJsInput.diff(today, 'days')} ${denOrDny}.`;
+}
 
 const vyberHvezdicek = (pocetHvezdicek) => {
   const hvezdicky = document.querySelectorAll('.stars button');
@@ -274,7 +285,7 @@ const vyberHvezdicek = (pocetHvezdicek) => {
   });
 };
 
-const buttons = document.querySelectorAll(".stars button");
+const buttons = document.querySelectorAll('.stars button');
 buttons.forEach((hvezda) => {
   hvezda.addEventListener('click', (e) => {
     const cislo = parseInt(e.target.textContent.trim());
@@ -282,4 +293,31 @@ buttons.forEach((hvezda) => {
   });
 });
 
-
+const play = document.querySelector('.play');
+play.addEventListener('click', () => {
+  const video = document.querySelector('video');
+  video.play();
+  video.addEventListener('playing', () => {
+    const prehravac = document.getElementById('prehravac');
+    prehravac.classList.add('playing');
+  });
+});
+const pause = document.querySelector('.pause');
+pause.addEventListener('click', () => {
+  const video = document.querySelector('video');
+  video.pause();
+  video.addEventListener('pause', () => {
+    const prehravac = document.getElementById('prehravac');
+    prehravac.classList.remove('playing');
+  });
+});
+const videoElm = document.querySelector('video');
+const casVidea = document.querySelector('.current-time');
+videoElm.addEventListener('timeupdate', () => {
+  const prectenyCasVidea = videoElm.currentTime;
+  const minuty = Math.floor(prectenyCasVidea / 60);
+  const sekundy = Math.floor(prectenyCasVidea % 60);
+  casVidea.textContent = `${minuty.toString().padStart(2, '0')}:${sekundy
+    .toString()
+    .padStart(2, '0')}`;
+});
