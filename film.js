@@ -231,21 +231,35 @@ mainElement.innerHTML += `
 			</div>
 `;
 
-/*Do prvku s id premiera vepište HTML Premiéra <strong>29. 11. 2022</strong>, kde datum nahraďte datumem premiéry filmu naformátovaným pomocí dayjs a metody .format().
-
-Datum v dayjs vytvoříte například voláním dayjs('2022-12-24'). Vánoce nahraďte datumem premiéry filmu.
-
-Hezké datum z dayjs vytvoříte voláním dayjs('2022-12-24').format('D. M. YYYY').*/
-
 const premiera = document.getElementById('premiera');
 
 const dayJsInput = dayjs(filmData.premiera);
-/*const today = */
 
-premiera.innerHTML = `
-Premiéra <strong>${dayJsInput}(</strong>
-`;
+const today = dayjs()
 
+const pocetDniOdPremiery = dayJsInput.diff(today, "days")
+
+let denOrDny
+
+if (pocetDniOdPremiery === 0) {
+    premiera.innerHTML = `
+    Premiéra <strong>${dayJsInput.format('D. M. YYYY')}</strong>, což je dnes.`;
+} else if (today.isAfter(dayJsInput)) {
+    if (pocetDniOdPremiery === -1) {
+            denOrDny = "dnem"
+    } else {denOrDny = "dny"}
+    premiera.innerHTML = `
+    Premiéra <strong>${dayJsInput.format('D. M. YYYY')}</strong>, což bylo před ${-dayJsInput.diff(today, "days")} ${denOrDny}.`
+    } else {
+      if (pocetDniOdPremiery === 1) {
+            denOrDny = "dnem"
+    } else if (pocetDniOdPremiery ===2 || pocetDniOdPremiery === 3 || pocetDniOdPremiery === 4) 
+    {denOrDny = "dny"
+    } else {denOrDny = "dní"} 
+    premiera.innerHTML = `
+    Premiéra <strong>${dayJsInput.format('D. M. YYYY')}</strong>, což bude za ${dayJsInput.diff(today, "days")} ${denOrDny}.`
+    }
+  
 
 const vyberHvezdicek = (pocetHvezdicek) => {
   const hvezdicky = document.querySelectorAll('.stars button');
