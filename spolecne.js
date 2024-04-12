@@ -1,9 +1,3 @@
-
-// const hamburger = document.getElementById("menu-tlacitko").addEventListener("click", () => {
-//   document.getElementById("menu-polozky").classList.toggle("show")
-// })
-
-// BONUS (výměna ikony hamburgeru a křížku)
 const menuTlacitkoElm = document.querySelector('#menu-tlacitko')
 const menuPolozkyElm = document.querySelector('#menu-polozky')
 menuTlacitkoElm.addEventListener('click', () => {
