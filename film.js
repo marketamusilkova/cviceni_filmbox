@@ -321,3 +321,4 @@ videoElm.addEventListener('timeupdate', () => {
     .toString()
     .padStart(2, '0')}`;
 });
+
