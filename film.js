@@ -126,6 +126,7 @@ poznamka.addEventListener('submit', (e) => {
 `;
 });
 
+// DETAIL FILMU (provázání se souborem spolecne a načtení údajů z pole):
 const filmId = window.location.hash.slice(1);
 const filmData = filmy.find((film) => film.id === filmId);
 const mainElement = document.querySelector('.container-lg');
@@ -231,6 +232,7 @@ mainElement.innerHTML += `
 			</div>
 `;
 
+// ZOBRAZENÍ INFORMACÍ O DATU PREMIÉRY:
 const premiera = document.getElementById('premiera');
 
 const dayJsInput = dayjs(filmData.premiera);
@@ -272,6 +274,7 @@ if (pocetDniOdPremiery === 0) {
     )}</strong>, což bude za ${dayJsInput.diff(today, 'days')} ${denOrDny}.`;
 }
 
+// MOŽNOST HODNOTIT FILM POMOCÍ HVĚZDIČEK:
 const vyberHvezdicek = (pocetHvezdicek) => {
   const hvezdicky = document.querySelectorAll('.stars button');
   hvezdicky.forEach((hvezdicka, index) => {
@@ -293,28 +296,30 @@ buttons.forEach((hvezda) => {
   });
 });
 
-const play = document.querySelector('.play');
-play.addEventListener('click', () => {
-  const video = document.querySelector('video');
+// OVLÁDACÍ PRVKY VIDEA:
+const prehravac = document.getElementById('prehravac');
+const ovladaciPanel = prehravac.querySelector('.player-controls');
+const video = prehravac.querySelector('video');
+const casVidea = prehravac.querySelector('.current-time');
+
+prehravac.querySelector('.play').addEventListener('click', () => {
   video.play();
-  video.addEventListener('playing', () => {
-    const prehravac = document.getElementById('prehravac');
-    prehravac.classList.add('playing');
-  });
 });
-const pause = document.querySelector('.pause');
-pause.addEventListener('click', () => {
-  const video = document.querySelector('video');
+
+prehravac.querySelector('.pause').addEventListener('click', () => {
   video.pause();
-  video.addEventListener('pause', () => {
-    const prehravac = document.getElementById('prehravac');
-    prehravac.classList.remove('playing');
-  });
 });
-const videoElm = document.querySelector('video');
-const casVidea = document.querySelector('.current-time');
-videoElm.addEventListener('timeupdate', () => {
-  const prectenyCasVidea = videoElm.currentTime;
+
+video.addEventListener('playing', () => {
+  prehravac.classList.add('playing');
+});
+
+video.addEventListener('pause', () => {
+  prehravac.classList.remove('playing');
+});
+
+video.addEventListener('timeupdate', () => {
+  const prectenyCasVidea = video.currentTime;
   const minuty = Math.floor(prectenyCasVidea / 60);
   const sekundy = Math.floor(prectenyCasVidea % 60);
   casVidea.textContent = `${minuty.toString().padStart(2, '0')}:${sekundy
@@ -322,3 +327,30 @@ videoElm.addEventListener('timeupdate', () => {
     .padStart(2, '0')}`;
 });
 
+document.addEventListener('keydown', (event) => {
+	if (
+		event.code === 'Space' &&
+		event.target.tagName !== 'TEXTAREA' &&
+		event.target.tagName !== 'INPUT' &&
+		event.target.tagName !== 'BUTTON'
+	) {
+		event.preventDefault()
+		if (prehravac.classList.contains('playing')) {
+			video.pause()
+		} else {
+			video.play()
+		}
+	}
+})
+
+const zobrazitOvladaciPanel = () => {
+	clearTimeout(odpocet)
+	odpocet = setTimeout(skrytOvladaciPanel, 3000)
+	ovladaciPanel.classList.remove('hidden')
+}
+const skrytOvladaciPanel = () => {
+	ovladaciPanel.classList.add('hidden')
+}
+let odpocet
+document.addEventListener('mousemove', zobrazitOvladaciPanel)
+document.addEventListener('keydown', zobrazitOvladaciPanel)
