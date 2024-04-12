@@ -275,8 +275,10 @@ if (pocetDniOdPremiery === 0) {
 }
 
 // MOŽNOST HODNOTIT FILM POMOCÍ HVĚZDIČEK:
+const hvezdicky = document.querySelectorAll('.stars button');
+let ohvezdickovano = 0;
+
 const vyberHvezdicek = (pocetHvezdicek) => {
-  const hvezdicky = document.querySelectorAll('.stars button');
   hvezdicky.forEach((hvezdicka, index) => {
     if (index < pocetHvezdicek) {
       hvezdicka.classList.remove('far');
@@ -287,13 +289,23 @@ const vyberHvezdicek = (pocetHvezdicek) => {
     }
   });
 };
+const hvezdaMouseEnter = (event) => {
+  vyberHvezdicek(Number(event.target.textContent));
+};
 
-const buttons = document.querySelectorAll('.stars button');
-buttons.forEach((hvezda) => {
-  hvezda.addEventListener('click', (e) => {
-    const cislo = parseInt(e.target.textContent.trim());
-    vyberHvezdicek(cislo);
-  });
+const hvezdaMouseLeave = () => {
+  vyberHvezdicek(ohvezdickovano);
+};
+
+const hvezdaMouseClick = (event) => {
+  ohvezdickovano = Number(event.target.textContent);
+  vyberHvezdicek(ohvezdickovano);
+};
+
+hvezdicky.forEach((hvezda) => {
+  hvezda.addEventListener('mouseenter', hvezdaMouseEnter)
+	hvezda.addEventListener('mouseleave', hvezdaMouseLeave)
+	hvezda.addEventListener('click', hvezdaMouseClick)
 });
 
 // OVLÁDACÍ PRVKY VIDEA:
@@ -328,29 +340,29 @@ video.addEventListener('timeupdate', () => {
 });
 
 document.addEventListener('keydown', (event) => {
-	if (
-		event.code === 'Space' &&
-		event.target.tagName !== 'TEXTAREA' &&
-		event.target.tagName !== 'INPUT' &&
-		event.target.tagName !== 'BUTTON'
-	) {
-		event.preventDefault()
-		if (prehravac.classList.contains('playing')) {
-			video.pause()
-		} else {
-			video.play()
-		}
-	}
-})
+  if (
+    event.code === 'Space' &&
+    event.target.tagName !== 'TEXTAREA' &&
+    event.target.tagName !== 'INPUT' &&
+    event.target.tagName !== 'BUTTON'
+  ) {
+    event.preventDefault();
+    if (prehravac.classList.contains('playing')) {
+      video.pause();
+    } else {
+      video.play();
+    }
+  }
+});
 
 const zobrazitOvladaciPanel = () => {
-	clearTimeout(odpocet)
-	odpocet = setTimeout(skrytOvladaciPanel, 3000)
-	ovladaciPanel.classList.remove('hidden')
-}
+  clearTimeout(odpocet);
+  odpocet = setTimeout(skrytOvladaciPanel, 3000);
+  ovladaciPanel.classList.remove('hidden');
+};
 const skrytOvladaciPanel = () => {
-	ovladaciPanel.classList.add('hidden')
-}
-let odpocet
-document.addEventListener('mousemove', zobrazitOvladaciPanel)
-document.addEventListener('keydown', zobrazitOvladaciPanel)
+  ovladaciPanel.classList.add('hidden');
+};
+let odpocet;
+document.addEventListener('mousemove', zobrazitOvladaciPanel);
+document.addEventListener('keydown', zobrazitOvladaciPanel);
