@@ -105,20 +105,23 @@ const filmy = [
   },
 ];
 
+// FORMULÁŘ (TEXTOVÉ POLE) PRO NAPSÁNÍ POZNÁMKY:
 const poznamka = document.getElementById('note-form');
 
 poznamka.addEventListener('submit', (e) => {
   e.preventDefault();
   const textAreaElm = document.getElementById('message-input');
   const textAreaElmValue = textAreaElm.value;
-  if (textAreaElmValue === '') {
+  if (textAreaElmValue.length === 0) {
     textAreaElm.classList.add('is-invalid');
+    textAreaElm.focus()
   }
   const checkBoxElm = document.getElementById('terms-checkbox');
 
   const checkBoxElmChecked = checkBoxElm.checked;
   if (!checkBoxElmChecked) {
     checkBoxElm.classList.add('is-invalid');
+    checkBoxElm.focus()
   }
 
   poznamka.innerHTML = `
