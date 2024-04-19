@@ -105,30 +105,6 @@ const filmy = [
   },
 ];
 
-// FORMULÁŘ (TEXTOVÉ POLE) PRO NAPSÁNÍ POZNÁMKY:
-const poznamka = document.getElementById('note-form');
-
-poznamka.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const textAreaElm = document.getElementById('message-input');
-  const textAreaElmValue = textAreaElm.value;
-  if (textAreaElmValue.length === 0) {
-    textAreaElm.classList.add('is-invalid');
-    textAreaElm.focus()
-  }
-  const checkBoxElm = document.getElementById('terms-checkbox');
-
-  const checkBoxElmChecked = checkBoxElm.checked;
-  if (!checkBoxElmChecked) {
-    checkBoxElm.classList.add('is-invalid');
-    checkBoxElm.focus()
-  }
-
-  poznamka.innerHTML = `
-<p class="card-text">${textAreaElmValue}</p>
-`;
-});
-
 // DETAIL FILMU (provázání se souborem spolecne a načtení údajů z pole):
 const filmId = window.location.hash.slice(1);
 const filmData = filmy.find((film) => film.id === filmId);
@@ -306,9 +282,9 @@ const hvezdaMouseClick = (event) => {
 };
 
 hvezdicky.forEach((hvezda) => {
-  hvezda.addEventListener('mouseenter', hvezdaMouseEnter)
-	hvezda.addEventListener('mouseleave', hvezdaMouseLeave)
-	hvezda.addEventListener('click', hvezdaMouseClick)
+  hvezda.addEventListener('mouseenter', hvezdaMouseEnter);
+  hvezda.addEventListener('mouseleave', hvezdaMouseLeave);
+  hvezda.addEventListener('click', hvezdaMouseClick);
 });
 
 // OVLÁDACÍ PRVKY VIDEA:
@@ -369,3 +345,24 @@ const skrytOvladaciPanel = () => {
 let odpocet;
 document.addEventListener('mousemove', zobrazitOvladaciPanel);
 document.addEventListener('keydown', zobrazitOvladaciPanel);
+
+// FORMULÁŘ (TEXTOVÉ POLE) PRO NAPSÁNÍ POZNÁMKY:
+const formularNaPoznamkuElement = document.querySelector('#note-form');
+formularNaPoznamkuElement.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const textovePoleElement =
+    formularNaPoznamkuElement.querySelector('#message-input');
+  if (textovePoleElement.value.length === 0) {
+    textovePoleElement.classList.add('is-invalid');
+    textovePoleElement.focus();
+    return;
+  }
+  const podminkyElement =
+    formularNaPoznamkuElement.querySelector('#terms-checkbox');
+  if (podminkyElement.checked === false) {
+    podminkyElement.classList.add('is-invalid');
+    podminkyElement.focus();
+    return;
+  }
+  formularNaPoznamkuElement.innerHTML = `<p class="card-text">${textovePoleElement.value}</p>`;
+});
